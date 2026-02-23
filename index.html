@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Learning Roadmap — Sergey Shaldybin</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0c0c0f;
+    --s1:       #141418;
+    --s2:       #1a1a20;
+    --s3:       #22222a;
+    --border:   rgba(255,255,255,0.07);
+    --text:     #e6e3dc;
+    --muted:    #8a867e;
+    --dim:      #4a4844;
+
+    --p0:   #e8b86d;   /* amber   — Python            */
+    --p1:   #6db8e8;   /* sky     — GenAI Foundations  */
+    --p2:   #a06de8;   /* violet  — Agentic AI + RAG   */
+    --p3:   #e86d8a;   /* rose    — Agents + MCP       */
+    --alt:  #6a6a80;   /* slate   — Alternatives        */
+    --p4:   #6de8b8;   /* mint    — Credentials        */
+    --por:  #e87d3e;   /* orange  — O'Reilly           */
+    --pde:  #5ec4a0;   /* teal    — DataExpert.io      */
+    --og:   #b8b86d;   /* olive   — Ongoing            */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* ── HEADER ── */
+  .hero { padding: 64px 0 48px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+
+  .eyebrow {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--dim); margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::after { content:''; flex:1; height:1px; background:var(--border); max-width:180px; }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(34px, 5.5vw, 58px);
+    font-weight: 800; line-height: 1.0; letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  h1 em { font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; color:var(--p0); }
+
+  .sub {
+    font-size: 12px; color: var(--muted); margin-bottom: 28px;
+    max-width: 520px; line-height: 1.8;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 28px; }
+  .tag {
+    display:inline-flex; align-items:center; gap:5px;
+    padding: 3px 11px; border-radius: 3px;
+    font-size: 9px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; border: 1px solid;
+  }
+  .t-dba { color:var(--p4); border-color:rgba(109,232,184,.25); background:rgba(109,232,184,.05); }
+  .t-de  { color:var(--p1); border-color:rgba(109,184,232,.25); background:rgba(109,184,232,.05); }
+  .t-bi  { color:var(--p3); border-color:rgba(232,109,138,.25); background:rgba(232,109,138,.05); }
+  .t-ai  { color:var(--p2); border-color:rgba(160,109,232,.25); background:rgba(160,109,232,.05); }
+
+  /* ── SUBSCRIPTIONS STRIP ── */
+  .subs {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 36px; padding: 16px 20px;
+    background: var(--s1); border: 1px solid var(--border); border-radius: 6px;
+  }
+  .sub-tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 3px; border: 1px solid;
+  }
+  .s-or  { color:var(--por); border-color:rgba(232,125,62,.3); background:rgba(232,125,62,.07); }
+  .s-de  { color:var(--pde); border-color:rgba(94,196,160,.3); background:rgba(94,196,160,.07); }
+  .s-co  { color:var(--p2);  border-color:rgba(160,109,232,.3); background:rgba(160,109,232,.07); }
+  .s-ya  { color:var(--p0);  border-color:rgba(232,184,109,.3); background:rgba(232,184,109,.07); }
+  .s-fr  { color:var(--p4);  border-color:rgba(109,232,184,.3); background:rgba(109,232,184,.07); }
+  .subs-label { font-size:10px; color:var(--dim); align-self:center; margin-right:4px; letter-spacing:.1em; text-transform:uppercase; }
+
+  /* ── PROGRESS ── */
+  .progress-block {
+    background: var(--s1); border: 1px solid var(--border); border-radius: 6px;
+    padding: 18px 22px; margin-bottom: 40px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .prog-num {
+    font-family:'Syne',sans-serif; font-size:30px; font-weight:800;
+    color:var(--p0); line-height:1;
+  }
+  .prog-bar-wrap { flex:1; min-width:180px; }
+  .prog-of { font-size:10px; color:var(--dim); letter-spacing:.1em; text-transform:uppercase; }
+  .track { height:3px; background:var(--s3); border-radius:2px; margin-top:6px; overflow:hidden; }
+  .fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--p0),var(--p3)); transition:width .5s ease; }
+  .pct { font-family:'Syne',sans-serif; font-weight:700; font-size:12px; color:var(--muted); margin-top:5px; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display:flex; flex-wrap:wrap; gap:14px;
+    margin-bottom:40px; padding-bottom:32px; border-bottom:1px solid var(--border);
+  }
+  .lg { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--muted); }
+  .ld { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+
+  /* ── SECTION HEADERS ── */
+  .sh {
+    display:flex; align-items:baseline; gap:14px;
+    margin-bottom:10px; padding-top:4px;
+  }
+  .sh-num { font-family:'Syne',sans-serif; font-size:10px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--dim); }
+  .sh-title { font-family:'Syne',sans-serif; font-size:17px; font-weight:700; letter-spacing:-.01em; }
+  .sh-meta { font-size:10px; color:var(--dim); margin-left:auto; white-space:nowrap; }
+
+  .pdesc { font-size:11.5px; color:var(--muted); margin-bottom:16px; line-height:1.75; max-width:680px; }
+
+  /* ── CARDS ── */
+  .grid { display:grid; gap:8px; margin-bottom:40px; }
+
+  .card {
+    background:var(--s1); border:1px solid var(--border); border-radius:6px;
+    padding:14px 18px 14px 21px;
+    display:grid; grid-template-columns:18px 1fr auto;
+    gap:13px; align-items:start;
+    cursor:pointer; transition:border-color .15s, background .15s;
+    position:relative; overflow:hidden;
+  }
+  .card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; }
+  .card:hover { border-color:rgba(255,255,255,.13); background:var(--s2); }
+  .card.done { opacity:.5; }
+  .card.done .cn { text-decoration:line-through; text-decoration-color:var(--dim); }
+
+  /* phase accent colors */
+  .g0  .card::before { background:var(--p0); }
+  .g1  .card::before { background:var(--p1); }
+  .g2  .card::before { background:var(--p2); }
+  .g3  .card::before { background:var(--p3); }
+  .g4  .card::before { background:var(--p4); }
+  .gor .card::before { background:var(--por); }
+  .gde .card::before { background:var(--pde); }
+  .gog .card::before { background:var(--og);  }
+
+  .cb {
+    width:15px; height:15px; border-radius:3px; border:1.5px solid var(--dim);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:2px; transition:border-color .15s, background .15s;
+  }
+  .card.done .cb { background:var(--p4); border-color:var(--p4); }
+  .ck { display:none; color:var(--bg); font-size:9px; font-weight:700; }
+  .card.done .ck { display:block; }
+
+  .cbody { min-width:0; }
+  .cn { font-family:'Syne',sans-serif; font-size:13px; font-weight:600; color:var(--text); margin-bottom:4px; }
+  .cd { font-size:11px; color:var(--muted); line-height:1.65; }
+  .cd a { color:inherit; text-decoration:underline; text-underline-offset:2px; opacity:.65; }
+
+  .bgs { display:flex; flex-direction:column; gap:3px; align-items:flex-end; flex-shrink:0; }
+  .b {
+    font-size:9px; font-weight:600; letter-spacing:.07em; text-transform:uppercase;
+    padding:2px 8px; border-radius:2px; white-space:nowrap; border:1px solid;
+  }
+  .bor  { color:var(--por); border-color:rgba(232,125,62,.25); background:rgba(232,125,62,.08); }
+  .bde  { color:var(--pde); border-color:rgba(94,196,160,.25); background:rgba(94,196,160,.08); }
+  .bhe  { color:var(--p0);  border-color:rgba(232,184,109,.25); background:rgba(232,184,109,.08); }
+  .bfr  { color:var(--p4);  border-color:rgba(109,232,184,.25); background:rgba(109,232,184,.08); }
+  .bco  { color:var(--p2);  border-color:rgba(160,109,232,.25); background:rgba(160,109,232,.08); }
+  .bce  { color:var(--p1);  border-color:rgba(109,184,232,.25); background:rgba(109,184,232,.08); }
+  .bpf  { color:var(--p3);  border-color:rgba(232,109,138,.25); background:rgba(232,109,138,.08); }
+
+  /* source pill inside description */
+  .src {
+    display:inline-block; font-size:9px; font-weight:600; letter-spacing:.06em;
+    text-transform:uppercase; padding:1px 6px; border-radius:2px; margin-right:4px;
+    vertical-align:middle;
+  }
+  .src-or  { background:rgba(232,125,62,.15);  color:var(--por); }
+  .src-de  { background:rgba(94,196,160,.15);  color:var(--pde); }
+  .src-ya  { background:rgba(232,184,109,.15); color:var(--p0);  }
+  .src-co  { background:rgba(160,109,232,.15); color:var(--p2);  }
+  .src-fr  { background:rgba(109,232,184,.15); color:var(--p4);  }
+
+  /* ── DIVIDER ── */
+  .div { height:1px; background:var(--border); margin-bottom:36px; }
+
+  /* ── SCHEDULE ── */
+  .box { background:var(--s1); border:1px solid var(--border); border-radius:6px; padding:24px; margin-bottom:36px; }
+  .box-title { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; margin-bottom:18px; }
+
+  .sched { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:8px; }
+  .wk { background:var(--s2); border:1px solid var(--border); border-radius:5px; padding:12px 14px; position:relative; }
+  .wk-lbl { font-size:9px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .wk-txt { font-size:11px; color:var(--text); line-height:1.55; }
+  .wk-dot { width:5px; height:5px; border-radius:50%; position:absolute; top:10px; right:10px; }
+
+  /* ── RESOURCES GRID ── */
+  .rgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px; }
+  .rc { background:var(--s2); border:1px solid var(--border); border-radius:5px; padding:13px 15px; }
+  .rc-name { font-family:'Syne',sans-serif; font-size:12px; font-weight:700; margin-bottom:4px; }
+  .rc-desc { font-size:11px; color:var(--muted); line-height:1.6; }
+  .rc-desc a { color:inherit; opacity:.65; }
+
+  /* ── ALTERNATIVES ── */
+  .alt-section {
+    background: var(--s1); border: 1px solid var(--border); border-radius: 6px;
+    padding: 24px; margin-bottom: 36px;
+  }
+  .alt-intro {
+    font-size: 11px; color: var(--muted); margin-bottom: 20px; line-height: 1.75;
+    max-width: 680px;
+  }
+  .alt-group { margin-bottom: 24px; }
+  .alt-group:last-child { margin-bottom: 0; }
+  .alt-group-title {
+    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+    color: var(--muted); letter-spacing: 0.05em;
+    margin-bottom: 8px; padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .alt-phase-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  .alt-card {
+    background: var(--s2); border: 1px solid var(--border); border-radius: 5px;
+    padding: 12px 15px 12px 18px;
+    display: grid; grid-template-columns: 18px 1fr auto;
+    gap: 12px; align-items: start;
+    cursor: pointer; transition: border-color .15s, background .15s;
+    position: relative; overflow: hidden; margin-bottom: 6px;
+  }
+  .alt-card:last-child { margin-bottom: 0; }
+  .alt-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background: var(--alt); opacity: 0.5; }
+  .alt-card:hover { border-color: rgba(255,255,255,.11); background: var(--s3); }
+  .alt-card.done { opacity: .45; }
+  .alt-card.done .acn { text-decoration: line-through; text-decoration-color: var(--dim); }
+  .alt-card.done .cb { background: var(--alt); border-color: var(--alt); }
+  .alt-note {
+    font-size: 10px; color: var(--dim); font-style: italic;
+    padding: 8px 12px; background: rgba(255,255,255,.02);
+    border-radius: 4px; margin-top: 4px; margin-bottom: 10px;
+    border-left: 2px solid var(--border);
+  }
+
+  /* ── NEXT CHAPTER ── */
+  .next {
+    background:rgba(232,184,109,.04); border:1px solid rgba(232,184,109,.14);
+    border-radius:6px; padding:24px; margin-bottom:36px;
+  }
+  .next-title { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:var(--p0); margin-bottom:6px; }
+  .next-desc { font-size:11px; color:var(--muted); margin-bottom:14px; line-height:1.7; }
+  .ngrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(175px,1fr)); gap:7px; }
+  .nc { background:rgba(232,184,109,.04); border:1px solid rgba(232,184,109,.09); border-radius:4px; padding:11px 13px; }
+  .nc-ph { font-size:9px; letter-spacing:.09em; text-transform:uppercase; color:var(--p0); opacity:.7; margin-bottom:3px; }
+  .nc-d  { font-size:11px; color:var(--muted); line-height:1.5; }
+  .next-file { font-size:10px; color:var(--dim); margin-top:12px; }
+
+  /* ── SHARE ── */
+  .share { text-align:center; padding:36px 0 56px; border-top:1px solid var(--border); }
+  .share-title { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; margin-bottom:5px; }
+  .share-sub { font-size:11px; color:var(--muted); margin-bottom:18px; }
+  .li-btn {
+    display:inline-flex; align-items:center; gap:7px;
+    background:#0A66C2; color:#fff; padding:9px 18px; border-radius:4px;
+    font-size:11px; font-weight:600; text-decoration:none;
+    font-family:'JetBrains Mono',monospace; transition:opacity .2s;
+  }
+  .li-btn:hover { opacity:.85; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">Sergey Shaldybin · v3 · 2026</div>
+  <h1>AI-Augmented<br><em>Data Platform</em><br>Engineer</h1>
+  <p class="sub">
+    DBA / DE / BI specialist with deep AI fluency.<br>
+    Not a pure AI developer — a data expert who commands AI tools.
+  </p>
+  <div class="tags">
+    <span class="tag t-dba">🗄 DBA · SQL Server / PG / ClickHouse</span>
+    <span class="tag t-de">⚙ Data Engineering</span>
+    <span class="tag t-bi">📊 BI · Power BI · Analytics</span>
+    <span class="tag t-ai">🤖 AI-Augmented</span>
+  </div>
+</div>
+
+<!-- SUBSCRIPTIONS STRIP -->
+<div class="subs">
+  <span class="subs-label">Paid resources</span>
+  <span class="sub-tag s-or">✓ O'Reilly Annual</span>
+  <span class="sub-tag s-de">✓ DataExpert.io All-Access</span>
+  <span class="sub-tag s-co">✓ Coursera Plus</span>
+  <span class="sub-tag s-ya">✓ Yaniv Arad Courses</span>
+  <span class="sub-tag s-fr">✓ Anthropic Academy (free)</span>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-block">
+  <div>
+    <div style="font-size:10px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px">Progress</div>
+    <div class="prog-num" id="done-count">0</div>
+  </div>
+  <div class="prog-bar-wrap">
+    <div class="prog-of">/ <span id="total-count">0</span> items</div>
+    <div class="track"><div class="fill" id="pfill" style="width:0%"></div></div>
+    <div class="pct" id="ppct">0% complete</div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="lg"><div class="ld" style="background:var(--p0)"></div>Phase 0 — Python</div>
+  <div class="lg"><div class="ld" style="background:var(--p1)"></div>Phase 1 — GenAI Foundations</div>
+  <div class="lg"><div class="ld" style="background:var(--p2)"></div>Phase 2 — Agentic AI + RAG</div>
+  <div class="lg"><div class="ld" style="background:var(--p3)"></div>Phase 3 — Agents + MCP + Claude Code</div>
+  <div class="lg"><div class="ld" style="background:var(--pde)"></div>DataExpert.io — DE + AI Bootcamps</div>
+  <div class="lg"><div class="ld" style="background:var(--p4)"></div>Phase 4 — Credentials</div>
+  <div class="lg"><div class="ld" style="background:var(--og)"></div>Ongoing</div>
+  <div class="lg"><div class="ld" style="background:var(--alt);opacity:.7"></div>Alternatives (not in progress %)</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PHASE 0 — Python -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="sh">
+  <span class="sh-num">Phase 0</span>
+  <span class="sh-title" style="color:var(--p0)">Python for Data Engineering</span>
+  <span class="sh-meta">Weeks 1–2</span>
+</div>
+<p class="pdesc">
+  Yaniv's 32hr Hebrew course is your primary theory track. O'Reilly's Reuven Lerner (MIT, Israel-based) runs the hands-on English practice in parallel — he goes deep on pandas and real datasets. These two complement perfectly: Yaniv gives structure, Reuven gives reps.
+</p>
+<div class="grid g0">
+
+  <div class="card" data-id="p0-1" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Yaniv Arad — Python Programming (32hrs)</div>
+      <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · Recorded · Functions, OOP, decorators, exceptions, REST APIs, JSON, MongoDB, parallel programming, file I/O. Your primary Python foundation. <a href="https://www.yaniv-arad.com/python-programming/" target="_blank">↗ course</a></div>
+    </div>
+    <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span></div>
+  </div>
+
+  <div class="card" data-id="p0-2" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">O'Reilly — Python for Data Analysis in 3 Weeks (Reuven Lerner)</div>
+      <div class="cd"><span class="src src-or">O'Reilly</span> Live/recorded · Pandas Series + DataFrames, boolean indexing, groupby, pivot tables, join, cleaning, plotting. Reuven is MIT-educated, Israel-based — excellent for your context. <a href="https://learning.oreilly.com/live-events/python-programming-for-data-analysis-in-3-weekswith-interactivity/0642572015665/0642572273262/" target="_blank">↗ event</a></div>
+    </div>
+    <div class="bgs"><span class="b bor">O'Reilly</span></div>
+  </div>
+
+  <div class="card" data-id="p0-3" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">O'Reilly — Effective Data Extraction with Python, Jupyter & Pandas</div>
+      <div class="cd"><span class="src src-or">O'Reilly</span> BeautifulSoup, XPath, CSS selectors, REST API data retrieval, scraping vs. API decision. Practical data collection skill — directly useful for building data pipelines. <a href="https://learning.oreilly.com/live-events/effective-data-extraction-with-python-jupyter-and-pandas/0642572013008/0642572284770/" target="_blank">↗ event</a></div>
+    </div>
+    <div class="bgs"><span class="b bor">O'Reilly</span></div>
+  </div>
+
+  <div class="card" data-id="p0-4" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Practice — ClickHouse Query Script in Python</div>
+      <div class="cd"><span class="src src-fr">Practice</span> Write a Python script: connect to ClickHouse via REST, run a query, return JSON, log results. Bridges Python refresh directly to your production work. Do this end of Week 2.</div>
+    </div>
+    <div class="bgs"><span class="b bpf">Portfolio</span></div>
+  </div>
+
+</div>
+<div class="div"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PHASE 1 — GenAI Foundations -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="sh">
+  <span class="sh-num">Phase 1</span>
+  <span class="sh-title" style="color:var(--p1)">Generative AI Foundations</span>
+  <span class="sh-meta">Weeks 3–4</span>
+</div>
+<p class="pdesc">
+  LLM fundamentals, prompt engineering, and your first GenAI-assisted data analysis. The O'Reilly GenAI bootcamp is the star here — it bridges Python + GenAI in a data analysis context using real datasets. Yaniv's modules give Hebrew-language theory depth. Anthropic Academy covers Claude-specific knowledge.
+</p>
+<div class="grid g1">
+
+  <div class="card" data-id="p1-1" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">O'Reilly — GenAI-Powered Data Analysis with Python Bootcamp (2-day)</div>
+      <div class="cd"><span class="src src-or">O'Reilly</span> Chester Ismay. pandas + Matplotlib + seaborn + plotly + GenAI as coding assistant. AI-assisted storytelling and stakeholder reporting. <strong>Best single course to start GenAI from a data analyst lens.</strong> <a href="https://learning.oreilly.com/live-events/genai-powered-data-analysis-with-python-bootcamp/0642572191207/0642572252977/" target="_blank">↗ event</a></div>
+    </div>
+    <div class="bgs"><span class="b bor">O'Reilly</span></div>
+  </div>
+
+  <div class="card" data-id="p1-2" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Yaniv AI Course — Modules 1–3: AI/ML Intro + LLMs + Prompt Engineering</div>
+      <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · Module 1: ML fundamentals. Module 2: LLM engines, tokens, temperature, top_p, max_tokens. Module 3: X-shot, CoT, self-criticism, iterative prompting. <a href="https://www.yaniv-arad.com/ai-course/" target="_blank">↗ course</a></div>
+    </div>
+    <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span></div>
+  </div>
+
+  <div class="card" data-id="p1-3" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">DataExpert.io — Bonus: LLMs Module (4.8hrs)</div>
+      <div class="cd"><span class="src src-de">DataExpert</span> Inside the DE Bootcamp content. Zach Wilson's take on LLMs through a data engineering lens — how LLMs connect to data platforms. Pairs well with Yaniv's theory. <a href="https://www.dataexpert.io" target="_blank">↗ platform</a></div>
+    </div>
+    <div class="bgs"><span class="b bde">DataExpert</span></div>
+  </div>
+
+  <div class="card" data-id="p1-4" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Anthropic Academy — Claude 101 + Prompt Engineering</div>
+      <div class="cd"><span class="src src-fr">Free</span> Claude-specific features, tool use, system prompts. Supplements Yaniv with Claude's own prompt engineering patterns. ~2hrs. <a href="https://anthropic.skilljar.com" target="_blank">↗ academy</a></div>
+    </div>
+    <div class="bgs"><span class="b bfr">Free</span></div>
+  </div>
+
+  <div class="card" data-id="p1-5" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">GitHub — Anthropic Courses: Prompt Engineering Notebooks</div>
+      <div class="cd"><span class="src src-fr">Free</span> Jupyter notebooks for hands-on Claude API prompt engineering. Run exercises locally alongside Yaniv's theory. <a href="https://github.com/anthropics/courses" target="_blank">↗ github.com/anthropics/courses</a></div>
+    </div>
+    <div class="bgs"><span class="b bfr">Free</span></div>
+  </div>
+
+</div>
+<div class="div"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PHASE 2 — Agentic AI + RAG -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="sh">
+  <span class="sh-num">Phase 2</span>
+  <span class="sh-title" style="color:var(--p2)">Agentic AI + RAG</span>
+  <span class="sh-meta">Weeks 5–6</span>
+</div>
+<p class="pdesc">
+  RAG architecture, LangChain, vector databases, and building AI applications. DataExpert.io's AI Engineering bootcamp covers this with a DE-first lens — highly relevant to your background. Yaniv and Coursera fill depth and credential.
+</p>
+<div class="grid g2">
+
+  <div class="card" data-id="p2-1" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">DataExpert.io — AI Engineering Bootcamp: Prompt Engineering + RAG (recorded)</div>
+      <div class="cd"><span class="src src-de">DataExpert</span> Zach Wilson. Prompt Engineering (3.9hrs) + Understanding RAG (3.9hrs) from a DE perspective. Already included in your All-Access. Data-engineer-first framing — closest to your mental model. <a href="https://www.dataexpert.io/program/ai-boot-camp-starting-june-7th-8623/details" target="_blank">↗ bootcamp</a></div>
+    </div>
+    <div class="bgs"><span class="b bde">DataExpert</span></div>
+  </div>
+
+  <div class="card" data-id="p2-2" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">DataExpert.io — AI Engineering: Advanced RAG + Agentic AI (2.9hrs)</div>
+      <div class="cd"><span class="src src-de">DataExpert</span> Graph RAG, agentic RAG patterns, end-to-end AI application architecture. Continuation of above — keep in same sitting.</div>
+    </div>
+    <div class="bgs"><span class="b bde">DataExpert</span></div>
+  </div>
+
+  <div class="card" data-id="p2-3" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Yaniv AI Course — Modules 8–9: LangChain + RAG Architecture</div>
+      <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · LangChain chains/memory/agents, implement RAG with LangChain, vector DB, splitters, embeddings. Hands-on implementation complement to DataExpert theory.</div>
+    </div>
+    <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span></div>
+  </div>
+
+  <div class="card" data-id="p2-4" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Coursera — Building with the Claude API Specialization (start now)</div>
+      <div class="cd"><span class="src src-co">Coursera</span> Already enrolled. Begin alongside Phase 2. Claude API deep dive: streaming, tool use, multimodal, RAG with Claude. LinkedIn-verifiable certificate. <a href="https://www.coursera.org/partners/anthropic" target="_blank">↗ coursera</a></div>
+    </div>
+    <div class="bgs"><span class="b bce">Certificate</span><span class="b bco">Coursera</span></div>
+  </div>
+
+</div>
+<div class="div"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PHASE 3 — Agents + MCP + Claude Code -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="sh">
+  <span class="sh-num">Phase 3</span>
+  <span class="sh-title" style="color:var(--p3)">AI Agents + MCP + Claude Code</span>
+  <span class="sh-meta">Weeks 7–9</span>
+</div>
+<p class="pdesc">
+  The core of your portfolio goal. The O'Reilly "Implementing AI Agents in Python" is the star — in a single session it covers LangChain, LlamaIndex, Smolagents, MCP overview, multi-agent (CrewAI), AutoGen, testing, and security. Combine with Yaniv's Modules 10–13 and Anthropic Academy for complete coverage.
+</p>
+<div class="grid g3">
+
+  <div class="card" data-id="p3-1" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">O'Reilly — Implementing AI Agents in Python (Brent Laster) ⭐</div>
+      <div class="cd"><span class="src src-or">O'Reilly</span> LangChain, LlamaIndex, Smolagents, MCP intro, RAG+agents, multi-agent (CrewAI), AutoGen reflective patterns, testing agents, securing against prompt injection. <strong>Single best O'Reilly event for your Phase 3.</strong> <a href="https://learning.oreilly.com/live-events/implementing-ai-agents-in-python/0642572016291/0642572266196/" target="_blank">↗ event</a></div>
+    </div>
+    <div class="bgs"><span class="b bor">O'Reilly</span></div>
+  </div>
+
+  <div class="card" data-id="p3-2" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Yaniv AI Course — Modules 10–11: AI Agents + MCP</div>
+      <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · Module 10: CrewAI, LangGraph, Swarm, Autogen, multi-agent patterns for DevOps/automation. Module 11: MCP architecture, server setup, LLM integration, testing. Hands-on Hebrew walkthrough. <a href="https://www.yaniv-arad.com/ai-course/" target="_blank">↗ course</a></div>
+    </div>
+    <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span></div>
+  </div>
+
+  <div class="card" data-id="p3-3" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Anthropic Academy — MCP Introduction + Advanced</div>
+      <div class="cd"><span class="src src-fr">Free</span> Official Anthropic MCP implementation: Tools, Resources, Prompts primitives. Server patterns, testing, multi-tool agents. Claude-specific depth that Yaniv + O'Reilly don't cover. <a href="https://anthropic.skilljar.com" target="_blank">↗ academy</a></div>
+    </div>
+    <div class="bgs"><span class="b bfr">Free</span></div>
+  </div>
+
+  <div class="card" data-id="p3-4" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Yaniv AI Course — Module 13: Claude Code</div>
+      <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · Installation, workflows, SDK, subagents, hooks, MCP integration, Cursor AI integration. Hebrew walkthrough of the tool you're using daily.</div>
+    </div>
+    <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span></div>
+  </div>
+
+  <div class="card" data-id="p3-5" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Anthropic Academy — Claude Code in Action (in progress)</div>
+      <div class="cd"><span class="src src-fr">Free</span> Official Anthropic course. Agentic workflows, hooks, subagents, CLAUDE.md best practices. <a href="https://anthropic.skilljar.com/claude-code-in-action" target="_blank">↗ course</a></div>
+    </div>
+    <div class="bgs"><span class="b bfr">Free</span></div>
+  </div>
+
+  <div class="card" data-id="p3-6" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">🏗 Portfolio Project — ClickHouse MCP Tool Server</div>
+      <div class="cd"><span class="src src-fr">Portfolio</span> Build MCP server that exposes ClickHouse analytics to an AI agent: query tool, schema tool, anomaly detection tool. Agent answers business questions in natural language. Flagship portfolio item combining DBA + AI. Build during Weeks 8–9.</div>
+    </div>
+    <div class="bgs"><span class="b bpf">Portfolio</span></div>
+  </div>
+
+</div>
+<div class="div"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- DATAEXPERT.IO — DE BOOTCAMP -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="sh">
+  <span class="sh-num">DataExpert.io</span>
+  <span class="sh-title" style="color:var(--pde)">Data Engineering Bootcamp</span>
+  <span class="sh-meta">Parallel · ongoing</span>
+</div>
+<p class="pdesc">
+  250+ hours of DE content already paid for. This is your primary DE depth track — run it in parallel throughout the roadmap. Zach Wilson's curriculum is built on Facebook/Netflix/Airbnb experience and is the strongest DE bootcamp available. These are directly applicable to your current ClickHouse/SQL Server work.
+</p>
+<div class="grid gde">
+
+  <div class="card" data-id="de-1" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">DataExpert.io — Dimensional + Fact Data Modeling (4.2 + 3.9hrs)</div>
+      <div class="cd"><span class="src src-de">DataExpert</span> Cumulative table design, date-list data structures, slowly changing dimensions, fact data modeling patterns. You've seen some of this in ClickHouse context — Zach's framing will crystallize it. <a href="https://www.dataexpert.io" target="_blank">↗ platform</a></div>
+    </div>
+    <div class="bgs"><span class="b bde">DataExpert</span></div>
+  </div>
+
+  <div class="card" data-id="de-2" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">DataExpert.io — Analytical Patterns + Advanced SQL (4.1hrs)</div>
+      <div class="cd"><span class="src src-de">DataExpert</span> Complex aggregation patterns, window functions, experimentation/KPI frameworks. Strengthens your existing SQL Server expertise with big-tech patterns.</div>
+    </div>
+    <div class="bgs"><span class="b bde">DataExpert</span></div>
+  </div>
+
+  <div class="card" data-id="de-3" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">DataExpert.io — Apache Spark Fundamentals + Real-Time (Kafka/Flink) (3.6 + 2.8hrs)</div>
+      <div class="cd"><span class="src src-de">DataExpert</span> Spark basics through Databricks. Real-time pipelines with Flink + Kafka. Opens the streaming data world that ClickHouse is increasingly used for.</div>
+    </div>
+    <div class="bgs"><span class="b bde">DataExpert</span></div>
+  </div>
+
+  <div class="card" data-id="de-4" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">DataExpert.io — Airflow + Trino + dbt Basics (3.7 + 2.6hrs)</div>
+      <div class="cd"><span class="src src-de">DataExpert</span> Pipeline orchestration with Airflow, query engine with Trino, dbt for transformation. Analytics Engineering-style DE stack. Free AWS + Astronomer cloud access included.</div>
+    </div>
+    <div class="bgs"><span class="b bde">DataExpert</span></div>
+  </div>
+
+  <div class="card" data-id="de-5" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">DataExpert.io — AI Engineering Bootcamp: MLOps + End-to-End App (2.5 + 3.3hrs)</div>
+      <div class="cd"><span class="src src-de">DataExpert</span> MLOps patterns for production AI systems, end-to-end AI application build. Connects AI engineering to data platform operations — your exact career intersection.</div>
+    </div>
+    <div class="bgs"><span class="b bde">DataExpert</span></div>
+  </div>
+
+  <div class="card" data-id="de-6" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">DataExpert.io — LinkedIn Mastery Course (6hrs)</div>
+      <div class="cd"><span class="src src-de">DataExpert</span> Optimize your LinkedIn for the Data Platform Engineer + AI pivot. Included in All-Access. Run this early — it will shape how you describe your learning publicly. <a href="https://www.dataexpert.io" target="_blank">↗ platform</a></div>
+    </div>
+    <div class="bgs"><span class="b bde">DataExpert</span></div>
+  </div>
+
+</div>
+<div class="div"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PHASE 4 — Credentials -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="sh">
+  <span class="sh-num">Phase 4</span>
+  <span class="sh-title" style="color:var(--p4)">Credentials</span>
+  <span class="sh-meta">Weeks 9–11</span>
+</div>
+<p class="pdesc">
+  LinkedIn-verifiable proof of the transition. Coursera Specialization is the strongest single credential for your profile. Anthropic Academy Bedrock course rounds out cloud deployment knowledge for enterprise AI.
+</p>
+<div class="grid g4">
+
+  <div class="card" data-id="p4-1" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Coursera — Building with the Claude API Specialization (complete)</div>
+      <div class="cd"><span class="src src-co">Coursera</span> Complete all courses for the LinkedIn Specialization certificate. Native "Licenses & Certifications" integration. The single strongest AI credential for your profile transition. <a href="https://www.coursera.org/partners/anthropic" target="_blank">↗ coursera</a></div>
+    </div>
+    <div class="bgs"><span class="b bce">🏆 Certificate</span><span class="b bco">Coursera</span></div>
+  </div>
+
+  <div class="card" data-id="p4-2" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">Anthropic Academy — Claude with Amazon Bedrock</div>
+      <div class="cd"><span class="src src-fr">Free</span> Enterprise Claude deployment on AWS. Relevant for production AI at scale — important for BI/DE roles that interact with cloud infrastructure. <a href="https://anthropic.skilljar.com" target="_blank">↗ academy</a></div>
+    </div>
+    <div class="bgs"><span class="b bfr">Free</span></div>
+  </div>
+
+  <div class="card" data-id="p4-3" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">O'Reilly — Book: AI Engineering (Chip Huyen)</div>
+      <div class="cd"><span class="src src-or">O'Reilly</span> Production LLM systems, evaluation, deployment, LLMOps. The definitive reference book for the AI Engineer role. Read during Phase 3–4. <a href="https://learning.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank">↗ book</a></div>
+    </div>
+    <div class="bgs"><span class="b bor">O'Reilly</span></div>
+  </div>
+
+  <div class="card" data-id="p4-4" onclick="toggle(this)">
+    <div class="cb"><span class="ck">✓</span></div>
+    <div class="cbody">
+      <div class="cn">O'Reilly — Book: Fundamentals of Data Engineering (Reis & Housley)</div>
+      <div class="cd"><span class="src src-or">O'Reilly</span> The DE lifecycle bible. Read throughout Phases 0–2 in parallel. Formalizes your 10yr DBA experience into DE engineering vocabulary. <a href="https://learning.oreilly.com/library/view/fundamentals-of-data/9781098108298/" target="_blank">↗ book</a></div>
+    </div>
+    <div class="bgs"><span class="b bor">O'Reilly</span></div>
+  </div>
+
+</div>
+<div class="div"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SCHEDULE -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="box">
+  <div class="box-title">📅 11-Week Schedule</div>
+  <div class="sched">
+    <div class="wk">
+      <div class="wk-lbl">Week 1</div>
+      <div class="wk-txt">Yaniv Python (OOP, functions) + O'Reilly Reuven Wk1 (Pandas Series)</div>
+      <div class="wk-dot" style="background:var(--p0)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Week 2</div>
+      <div class="wk-txt">Yaniv Python (APIs, REST) + O'Reilly Reuven Wk2–3 (DataFrames, groupby) + ClickHouse script practice</div>
+      <div class="wk-dot" style="background:var(--p0)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Week 2 side</div>
+      <div class="wk-txt">O'Reilly: Data Extraction (BeautifulSoup, XPath, APIs)</div>
+      <div class="wk-dot" style="background:var(--por)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Week 3</div>
+      <div class="wk-txt">O'Reilly GenAI Bootcamp (2-day) + Yaniv AI Modules 1–2 + DataExpert LLMs module</div>
+      <div class="wk-dot" style="background:var(--p1)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Week 4</div>
+      <div class="wk-txt">Yaniv AI Module 3 (Prompt Eng) + Anthropic Academy + GitHub notebooks</div>
+      <div class="wk-dot" style="background:var(--p1)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Week 5</div>
+      <div class="wk-txt">DataExpert AI Bootcamp: Prompt Eng + RAG (3.9+3.9hrs) + start Coursera</div>
+      <div class="wk-dot" style="background:var(--p2)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Week 6</div>
+      <div class="wk-txt">DataExpert Advanced RAG + Agentic AI + Yaniv Modules 8–9 (LangChain)</div>
+      <div class="wk-dot" style="background:var(--p2)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Week 7</div>
+      <div class="wk-txt">O'Reilly: Implementing AI Agents ⭐ + Yaniv Modules 10–11 (Agents, MCP)</div>
+      <div class="wk-dot" style="background:var(--p3)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Week 8</div>
+      <div class="wk-txt">Anthropic Academy MCP + Yaniv Module 13 (Claude Code) + Anthropic Academy Claude Code</div>
+      <div class="wk-dot" style="background:var(--p3)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Week 9</div>
+      <div class="wk-txt">Build ClickHouse MCP Server portfolio project + DataExpert MLOps</div>
+      <div class="wk-dot" style="background:var(--p3)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Weeks 10–11</div>
+      <div class="wk-txt">Complete Coursera Specialization certificate + Bedrock + AI Engineering book</div>
+      <div class="wk-dot" style="background:var(--p4)"></div>
+    </div>
+    <div class="wk">
+      <div class="wk-lbl">Parallel all</div>
+      <div class="wk-txt">DataExpert DE Bootcamp (modeling, SQL, Spark, Airflow, dbt) + LinkedIn Mastery course</div>
+      <div class="wk-dot" style="background:var(--pde)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ONGOING RESOURCES -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="box">
+  <div class="box-title">🔄 Ongoing — Read / Follow Weekly</div>
+  <div class="rgrid">
+    <div class="rc">
+      <div class="rc-name" style="color:var(--og)">datawithbaraa.com</div>
+      <div class="rc-desc">SQL, Power BI, DE content. Hebrew market perspective. Weekly reading for practical BI/DE insights.</div>
+    </div>
+    <div class="rc">
+      <div class="rc-name" style="color:var(--og)">blog.surfalytics.com</div>
+      <div class="rc-desc">Dmitry Anoshin. AI-native DE, Claude Code, career strategy. Early signal on cutting-edge tooling + the ClaudeCode101 course author.</div>
+    </div>
+    <div class="rc">
+      <div class="rc-name" style="color:var(--og)">Anthropic Academy</div>
+      <div class="rc-desc">Check monthly for new releases — MCP, Claude Code, agent pattern updates. <a href="https://anthropic.skilljar.com" target="_blank">↗</a></div>
+    </div>
+    <div class="rc">
+      <div class="rc-name" style="color:var(--og)">modelcontextprotocol.io</div>
+      <div class="rc-desc">MCP standard evolution. New server implementations. Watch for ClickHouse-relevant patterns. <a href="https://modelcontextprotocol.io" target="_blank">↗</a></div>
+    </div>
+    <div class="rc">
+      <div class="rc-name" style="color:var(--og)">DataExpert.io Discord</div>
+      <div class="rc-desc">Included in All-Access. Community of DE/AI practitioners. Guest speaker series. Weekly office hours with Zach Wilson.</div>
+    </div>
+    <div class="rc">
+      <div class="rc-name" style="color:var(--og)">O'Reilly Radar + Live Calendar</div>
+      <div class="rc-desc">Monthly scan for new DE/AI live events. ~200 events/month — check for relevant upcoming sessions on data platforms, agents, MCP. <a href="https://learning.oreilly.com/live-events/" target="_blank">↗</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ALTERNATIVES -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="sh">
+  <span class="sh-num">Alternatives</span>
+  <span class="sh-title" style="color:var(--alt)">Alternative & Optional Courses</span>
+  <span class="sh-meta">Keep in mind · swap or add</span>
+</div>
+<div class="alt-section">
+  <p class="alt-intro">
+    These are valid alternatives or supplements to the primary roadmap — from your existing paid subscriptions.
+    None are in the main checklist so they won't inflate your progress %. Use them if a primary course doesn't land well,
+    if you want extra depth in a specific area, or if a live event is more convenient than a recorded one.
+    Checkboxes here are for personal notes only.
+  </p>
+
+  <!-- Phase 0 alternatives -->
+  <div class="alt-group">
+    <div class="alt-group-title">
+      <div class="alt-phase-dot" style="background:var(--p0)"></div>
+      Phase 0 — Python alternatives & extras
+    </div>
+    <div class="alt-note">Use if Yaniv's pace doesn't match, or for deeper Pandas / DE-specific Python practice.</div>
+
+    <div class="alt-card" data-id="alt-p0-1" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">O'Reilly — Python in 5 Weeks for Beginners (Reuven Lerner)</div>
+        <div class="cd"><span class="src src-or">O'Reilly</span> Reuven's prerequisite course to the Data Analysis series. If Phase 0 feels too fast on Python basics, start here first. Solid foundation with interactive exercises.</div>
+      </div>
+      <div class="bgs"><span class="b bor">O'Reilly</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-p0-2" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">O'Reilly — Book: Python for Data Analysis, 3rd ed. (Wes McKinney)</div>
+        <div class="cd"><span class="src src-or">O'Reilly</span> The pandas bible by the creator of pandas. Read alongside Reuven's live course for reference-level depth. Chapters 1–3 are required prereading for the live event anyway.</div>
+      </div>
+      <div class="bgs"><span class="b bor">O'Reilly</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-p0-3" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">Yaniv Arad — Free Python Intro Course</div>
+        <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · Free intro included with Yaniv's Python course. If you feel rusty before starting the 32hr course, this 2–3hr refresher sets the baseline.</div>
+      </div>
+      <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span><span class="b bfr">Free</span></div>
+    </div>
+  </div>
+
+  <!-- Phase 1 alternatives -->
+  <div class="alt-group">
+    <div class="alt-group-title">
+      <div class="alt-phase-dot" style="background:var(--p1)"></div>
+      Phase 1 — GenAI Foundations alternatives & extras
+    </div>
+    <div class="alt-note">Alternative starting points if the O'Reilly bootcamp is not scheduled, or for extra breadth.</div>
+
+    <div class="alt-card" data-id="alt-p1-1" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">Yaniv AI Course — Module 4: Empowering LLM for Dev Tasks</div>
+        <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · LLMs for code completion, bug detection, unit tests, security, DevOps, databases. Practical AI-as-coding-assistant module — relevant to your daily DBA/DE work.</div>
+      </div>
+      <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-p1-2" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">DeepLearning.AI — Short Courses: Prompt Engineering for Developers</div>
+        <div class="cd"><span class="src src-fr">Free</span> Andrew Ng + OpenAI. 1hr free course. English, hands-on Jupyter notebooks. Good complement if you want a second perspective on prompting after Yaniv's Module 3. <a href="https://www.deeplearning.ai/short-courses/" target="_blank">↗ courses</a></div>
+      </div>
+      <div class="bgs"><span class="b bfr">Free</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-p1-3" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">O'Reilly — Book: Prompt Engineering for Generative AI (O'Reilly)</div>
+        <div class="cd"><span class="src src-or">O'Reilly</span> Comprehensive prompt engineering reference. Recommended prereading for the GenAI bootcamp. Use as reference, not cover-to-cover read.</div>
+      </div>
+      <div class="bgs"><span class="b bor">O'Reilly</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-p1-4" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">GitHub — Anthropic Courses: Tool Use + RAG Notebooks</div>
+        <div class="cd"><span class="src src-fr">Free</span> Hands-on notebooks for tool use and RAG with Claude API. Use when you reach Phase 2 to bridge theory to Claude-specific implementation. <a href="https://github.com/anthropics/courses" target="_blank">↗ github.com/anthropics/courses</a></div>
+      </div>
+      <div class="bgs"><span class="b bfr">Free</span></div>
+    </div>
+  </div>
+
+  <!-- Phase 2 alternatives -->
+  <div class="alt-group">
+    <div class="alt-group-title">
+      <div class="alt-phase-dot" style="background:var(--p2)"></div>
+      Phase 2 — Agentic AI / RAG alternatives & extras
+    </div>
+    <div class="alt-note">Deeper dives into specific frameworks if DataExpert's coverage feels too high-level on any topic.</div>
+
+    <div class="alt-card" data-id="alt-p2-1" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">Yaniv AI Course — Module 5: Building AI Applications</div>
+        <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · OpenAI API, Bedrock, Mistral, DeepSeek pricing + tokens, build a chatbot in Python. Use if you want to see multi-provider API calls before going Claude-specific in Coursera.</div>
+      </div>
+      <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-p2-2" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">O'Reilly — Book: RAG with Python Cookbook</div>
+        <div class="cd"><span class="src src-or">O'Reilly</span> Practical RAG implementation recipes. Recommended follow-up reading from the "Implementing AI Agents" course. Use as reference when building your ClickHouse MCP project.</div>
+      </div>
+      <div class="bgs"><span class="b bor">O'Reilly</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-p2-3" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">DeepLearning.AI — Building Systems with the ChatGPT API</div>
+        <div class="cd"><span class="src src-fr">Free</span> Andrew Ng. Chaining calls, evaluation, moderation. Framework-agnostic. Good complement before diving into LangChain if you want to understand the underlying patterns first. <a href="https://www.deeplearning.ai/short-courses/" target="_blank">↗</a></div>
+      </div>
+      <div class="bgs"><span class="b bfr">Free</span></div>
+    </div>
+  </div>
+
+  <!-- Phase 3 alternatives -->
+  <div class="alt-group">
+    <div class="alt-group-title">
+      <div class="alt-phase-dot" style="background:var(--p3)"></div>
+      Phase 3 — Agents / MCP / Claude Code alternatives & extras
+    </div>
+    <div class="alt-note">Deeper tooling coverage and live bootcamp option for Phase 3 topics.</div>
+
+    <div class="alt-card" data-id="alt-p3-1" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">DataExpert.io — Spring 2026 AI Engineering Bootcamp (LIVE · March 16) ⚡</div>
+        <div class="cd"><span class="src src-de">DataExpert</span> Live cohort — starts March 16, 2026 (3 weeks away!). Covers Prompt Engineering, RAG, Advanced RAG + Agentic AI, MLOps, end-to-end AI app. Same content as recorded but with live sessions, cohort, Q&A with Zach. Included in All-Access. <strong>Register now if you want the live experience.</strong> <a href="https://www.dataexpert.io/program/ai-engineering-boot-camp-starting-on-march-16th-2026-857" target="_blank">↗ register</a></div>
+      </div>
+      <div class="bgs"><span class="b bde">DataExpert</span><span class="b bpf">⚡ Live</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-p3-2" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">O'Reilly — Getting Started with LLM Agents Using LangChain</div>
+        <div class="cd"><span class="src src-or">O'Reilly</span> Lucas Soares. Deeper LangChain agent implementation. Recommended follow-up from the "Implementing AI Agents" course for LangChain-specific depth.</div>
+      </div>
+      <div class="bgs"><span class="b bor">O'Reilly</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-p3-3" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">Yaniv AI Course — Module 12: Cursor AI (vibe coding)</div>
+        <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · Cursor Cascade modes (Ask/Manual/Agent), context, rules, MCP servers in Cursor, deploy. Alternative AI coding tool to Claude Code. Worth knowing the landscape even if you stick with Claude Code.</div>
+      </div>
+      <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-p3-4" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">Yaniv AI Course — Module 7: AI Dev Tools (Tabnine, Codeium, QodoGen)</div>
+        <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · AI-powered coding assistants beyond Claude Code. Good situational awareness of the tooling landscape. 1–2hrs. Low priority but useful for job interviews.</div>
+      </div>
+      <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span></div>
+    </div>
+  </div>
+
+  <!-- DataExpert.io extras -->
+  <div class="alt-group">
+    <div class="alt-group-title">
+      <div class="alt-phase-dot" style="background:var(--pde)"></div>
+      DataExpert.io — Extra bootcamp content (All-Access)
+    </div>
+    <div class="alt-note">Deep DE specialization — use when you want to go further on a specific technology stack already in your roadmap.</div>
+
+    <div class="alt-card" data-id="alt-de-1" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">DataExpert.io — Databricks Basics + Advanced Spark on Databricks (2.6 + 3.6hrs)</div>
+        <div class="cd"><span class="src src-de">DataExpert</span> Databricks-specific Spark. Relevant if your DE work moves toward cloud data lakehouse. Databricks is the leading platform for Spark in production — free cloud access included.</div>
+      </div>
+      <div class="bgs"><span class="b bde">DataExpert</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-de-2" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">DataExpert.io — Analytics Engineering Bootcamp: CDC + dbt + Snowflake (35hrs)</div>
+        <div class="cd"><span class="src src-de">DataExpert</span> Full Analytics Engineering track: Airflow, Change Data Capture, dbt basics + advanced, Snowflake. If you want to pivot toward analytics engineering (dbt+Snowflake stack is very marketable), this is the full track.</div>
+      </div>
+      <div class="bgs"><span class="b bde">DataExpert</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-de-3" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">DataExpert.io — 15-Week 2026 Data & AI Engineering Challenge</div>
+        <div class="cd"><span class="src src-de">DataExpert</span> Structured 15-week challenge combining DE + AI Engineering tracks. Good alternative if you want a single guided journey instead of building your own schedule. <a href="https://www.dataexpert.io/program/the-15-week-data-and-ai-challenge-starting-january-2nd-2026" target="_blank">↗ program</a></div>
+      </div>
+      <div class="bgs"><span class="b bde">DataExpert</span></div>
+    </div>
+  </div>
+
+  <!-- O'Reilly extras -->
+  <div class="alt-group">
+    <div class="alt-group-title">
+      <div class="alt-phase-dot" style="background:var(--por)"></div>
+      O'Reilly — Additional live events worth watching
+    </div>
+    <div class="alt-note">All available in your annual subscription. Check the live event calendar monthly for the next scheduled run.</div>
+
+    <div class="alt-card" data-id="alt-or-1" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">O'Reilly — Advanced SQL for Data Analysis (Thomas Nield)</div>
+        <div class="cd"><span class="src src-or">O'Reilly</span> Window functions, CTEs, recursive queries, advanced analytics patterns. Deepens your existing SQL mastery. Nield is one of the best SQL instructors on the platform. <a href="https://www.oreilly.com/live-events/advanced-sql-for-data-analysis-with-python-r-and-java/0636920099789/" target="_blank">↗ event</a></div>
+      </div>
+      <div class="bgs"><span class="b bor">O'Reilly</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-or-2" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">O'Reilly — Data Engineering Fundamentals in 3 Weeks (Thomas Nield)</div>
+        <div class="cd"><span class="src src-or">O'Reilly</span> DE lifecycle, tool selection, scaling, technical debt. Frames your 10yr DBA experience in DE vocabulary. Good if the Fundamentals of DE book feels too dense to read solo. <a href="https://www.oreilly.com/live-events/data-engineering-fundamentals-in-3-weeks/0636920086304/" target="_blank">↗ event</a></div>
+      </div>
+      <div class="bgs"><span class="b bor">O'Reilly</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-or-3" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">O'Reilly — Building Data Pipelines with Python and SQL (Marc Laforet)</div>
+        <div class="cd"><span class="src src-or">O'Reilly</span> ETL design, Kimball data model, Python vs SQL pipeline trade-offs, BI/AI pipeline support. Directly relevant to your ClickHouse → SQL Server pipeline work. <a href="https://oreilly.com/attend/-/0636920395713/0636920395690" target="_blank">↗ event</a></div>
+      </div>
+      <div class="bgs"><span class="b bor">O'Reilly</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-or-4" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">O'Reilly — Book: Data Engineering Design Patterns (2025)</div>
+        <div class="cd"><span class="src src-or">O'Reilly</span> Full Load, CDC, Incremental Load, Deduplication, Late Data, Fault Tolerance patterns. Published April 2025 — very fresh. Useful reference when designing your ClickHouse pipeline patterns.</div>
+      </div>
+      <div class="bgs"><span class="b bor">O'Reilly</span></div>
+    </div>
+  </div>
+
+  <!-- Career / LinkedIn extras -->
+  <div class="alt-group">
+    <div class="alt-group-title">
+      <div class="alt-phase-dot" style="background:var(--p4)"></div>
+      Career & LinkedIn — extras for the transition
+    </div>
+    <div class="alt-note">Run these alongside Phase 4 or whenever you're ready to start reshaping your public profile.</div>
+
+    <div class="alt-card" data-id="alt-ca-1" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">Yaniv AI Course — Module 15: Your Next AI Role</div>
+        <div class="cd"><span class="src src-ya">Yaniv</span> Hebrew · Career transition, resume for AI roles, job search strategy, interview preparation. Very relevant for your DBA → Data Platform Engineer + AI pivot. <a href="https://www.yaniv-arad.com/ai-course/" target="_blank">↗ course</a></div>
+      </div>
+      <div class="bgs"><span class="b bhe">🇮🇱 Hebrew</span></div>
+    </div>
+
+    <div class="alt-card" data-id="alt-ca-2" onclick="toggleAlt(this)">
+      <div class="cb"><span class="ck">✓</span></div>
+      <div class="cbody">
+        <div class="cn acn">O'Reilly — Superstreams: AI & Data Engineering conferences</div>
+        <div class="cd"><span class="src src-or">O'Reilly</span> Multi-session online conferences included in your subscription. Good for hearing industry trends, meeting practitioners, and identifying what skills the market is actually asking for. Check the calendar monthly.</div>
+      </div>
+      <div class="bgs"><span class="b bor">O'Reilly</span></div>
+    </div>
+  </div>
+
+</div>
+<div class="div"></div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- NEXT CHAPTER -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="next">
+  <div class="next-title">🗺 After This Roadmap — GenAI_Career_Roadmap_Shaldyk_v2.md</div>
+  <div class="next-desc">
+    38-week career operating system that builds on everything here. Claude Code + Gemini CLI dual-tool mastery,
+    multi-model portfolio projects, DataExpert Spring 2026 AI Engineering Bootcamp (live, March 16), and full AI Engineer market positioning.
+  </div>
+  <div class="ngrid">
+    <div class="nc"><div class="nc-ph">v2 Phase 1 · Wks 1–8</div><div class="nc-d">Claude Code + Gemini CLI dual-tool mastery</div></div>
+    <div class="nc"><div class="nc-ph">v2 Phase 2 · Wks 9–16</div><div class="nc-d">AI-Augmented DE applied in daily work</div></div>
+    <div class="nc"><div class="nc-ph">v2 Phase 3 · Wks 17–24</div><div class="nc-d">Multi-model RAG portfolio project</div></div>
+    <div class="nc"><div class="nc-ph">v2 Phase 4 · Wks 25+</div><div class="nc-d">AI Engineer positioning + market entry</div></div>
+    <div class="nc"><div class="nc-ph">DataExpert Spring 2026</div><div class="nc-d">Live AI Engineering Bootcamp starts March 16, 2026 — register now</div></div>
+  </div>
+  <div class="next-file">📄 GenAI_Career_Roadmap_Shaldyk_v2.md · Chat: "AI Engineer Career Roadmap — Claude Code + Gemini CLI (v2)"</div>
+</div>
+
+<!-- SHARE -->
+<div class="share">
+  <div class="share-title">Share Your Progress</div>
+  <div class="share-sub">Learning in public accelerates your career transition.</div>
+  <a class="li-btn" id="li-share" href="#" target="_blank">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    Share on LinkedIn
+  </a>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+const KEY = 'roadmap_v3';
+function load() { try { return JSON.parse(localStorage.getItem(KEY)||'{}'); } catch { return {}; } }
+function save(d) { localStorage.setItem(KEY, JSON.stringify(d)); }
+
+function toggleAlt(card) {
+  const d = load();
+  d[card.dataset.id] = !d[card.dataset.id];
+  save(d); card.classList.toggle('done', !!d[card.dataset.id]);
+  // alt cards don't affect progress counter
+}
+
+function toggle(card) {
+  const d = load();
+  d[card.dataset.id] = !d[card.dataset.id];
+  save(d); card.classList.toggle('done', !!d[card.dataset.id]);
+  update();
+}
+
+function update() {
+  const d = load();
+  // restore alt card states
+  document.querySelectorAll('.alt-card[data-id]').forEach(c => {
+    c.classList.toggle('done', !!d[c.dataset.id]);
+  });
+  const cards = document.querySelectorAll('.card[data-id]');
+  let done = 0;
+  cards.forEach(c => {
+    const checked = !!d[c.dataset.id];
+    c.classList.toggle('done', checked);
+    if (checked) done++;
+  });
+  const total = cards.length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('done-count').textContent = done;
+  document.getElementById('total-count').textContent = total;
+  document.getElementById('pfill').style.width = pct + '%';
+  document.getElementById('ppct').textContent = pct + '% complete';
+
+  const txt = `🚀 Progress update on my AI-Augmented Data Platform Engineer journey\n\n${pct}% through my structured roadmap (${done}/${total} items).\n\nCore identity: DBA/DE/BI → adding deep AI engineering skills\nStack: ClickHouse · SQL Server · PostgreSQL · Python · MCP · Claude Code · Agentic AI\nResources: O'Reilly · DataExpert.io · Anthropic Academy · Coursera · Yaniv Arad\n\n#DataEngineering #AI #MCP #ClaudeCode #LearningInPublic #RTB #Analytics`;
+  document.getElementById('li-share').href =
+    `https://www.linkedin.com/sharing/share-offsite/?url=https://shaldyk.github.io/ai-learning-roadmap/&summary=${encodeURIComponent(txt)}`;
+}
+update();
+</script>
+</body>
+</html>
